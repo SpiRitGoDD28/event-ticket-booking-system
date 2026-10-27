@@ -1,0 +1,328 @@
+/* =========================================
+   SEAT PAGE
+========================================= */
+
+.seat-page {
+    min-height: calc(100vh - 70px);
+
+    background: var(--charcoal);
+
+    color: var(--cream);
+
+    padding-bottom: 80px;
+}
+
+.seat-back-link {
+    display: inline-block;
+
+    color: var(--text-muted);
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    transition: 0.2s ease;
+}
+
+.seat-back-link:hover {
+    color: var(--gold-light);
+}
+
+.seat-header {
+    text-align: center;
+
+    margin-top: 45px;
+}
+
+.seat-header h1 {
+    color: var(--cream);
+
+    font-size: clamp(38px, 5vw, 64px);
+
+    font-weight: 700;
+
+    letter-spacing: -2px;
+
+    margin-bottom: 12px;
+}
+
+.seat-header h1 span {
+    color: var(--gold-light);
+}
+
+.seat-header p:last-child {
+    color: var(--text-muted);
+
+    font-size: 17px;
+}
+
+
+/* =========================================
+   CINEMA SCREEN
+========================================= */
+
+.cinema-screen-wrapper {
+    display: flex;
+
+    justify-content: center;
+
+    margin: 60px auto 45px;
+}
+
+.cinema-screen {
+    width: min(700px, 90%);
+
+    height: 58px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #f5f3ed;
+
+    color: #111111;
+
+    border: 2px solid var(--gold-light);
+
+    border-radius: 50% / 100%;
+
+    box-shadow:
+        0 0 25px rgba(245, 243, 237, 0.12),
+        0 0 45px rgba(201, 162, 39, 0.12),
+        0 12px 35px rgba(0, 0, 0, 0.35);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 4px;
+}
+
+
+/* =========================================
+   SEAT GRID
+========================================= */
+
+.seat-layout {
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 14px;
+
+    padding: 20px;
+}
+
+.seat {
+    height: 48px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.seat-available {
+    background: var(--charcoal-soft);
+
+    color: var(--gold-light);
+
+    border: 1px solid rgba(201, 162, 39, 0.45);
+}
+
+.seat-available:hover {
+    background: var(--gold);
+
+    color: var(--charcoal);
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 20px rgba(201, 162, 39, 0.18);
+}
+
+.seat-selected {
+    background: var(--gold);
+
+    color: var(--charcoal);
+
+    border: 1px solid var(--gold-light);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(201, 162, 39, 0.25);
+}
+
+.seat-booked {
+    background: #34373d;
+
+    color: #777;
+
+    cursor: not-allowed;
+
+    opacity: 0.65;
+}
+
+
+/* =========================================
+   SEAT LEGEND
+========================================= */
+
+.seat-legend {
+    max-width: 720px;
+
+    margin: 20px auto 35px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 28px;
+
+    color: var(--text-muted);
+
+    font-size: 13px;
+}
+
+.seat-legend > div {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.legend-box {
+    width: 13px;
+    height: 13px;
+
+    display: inline-block;
+
+    border-radius: 4px;
+}
+
+.legend-box.available {
+    background: var(--charcoal-soft);
+
+    border: 1px solid var(--gold);
+}
+
+.legend-box.selected {
+    background: var(--gold);
+}
+
+.legend-box.booked {
+    background: #34373d;
+}
+
+
+/* =========================================
+   SEAT SUMMARY
+========================================= */
+
+.seat-summary {
+    max-width: 900px;
+
+    margin: 45px auto 0;
+
+    padding: 25px 30px;
+
+    display: grid;
+
+    grid-template-columns:
+        1.5fr
+        1fr
+        1fr
+        auto;
+
+    align-items: center;
+
+    gap: 30px;
+
+    background: var(--charcoal-light);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.seat-summary p {
+    margin: 0 0 6px;
+
+    color: var(--text-muted);
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+.seat-summary strong {
+    font-size: 17px;
+
+    color: var(--cream);
+}
+
+.seat-total {
+    color: var(--gold-light) !important;
+}
+
+.seat-continue-btn {
+    min-width: 130px;
+
+    padding: 13px 20px;
+
+    background: var(--gold);
+
+    color: var(--charcoal);
+
+    border: 1px solid var(--gold);
+
+    border-radius: 8px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.seat-continue-btn:hover:not(:disabled) {
+    background: var(--gold-light);
+
+    transform: translateY(-2px);
+}
+
+.seat-continue-btn:disabled {
+    opacity: 0.4;
+
+    cursor: not-allowed;
+}
+
+

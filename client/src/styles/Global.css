@@ -1,0 +1,140 @@
+
+/* =========================================
+   EVENTBOOK GLOBAL THEME
+========================================= */
+
+:root {
+    --charcoal: #15171c;
+    --charcoal-light: #1d2026;
+    --charcoal-soft: #252930;
+
+    --gold: #c9a227;
+    --gold-light: #e2c766;
+
+    --cream: #f5f3ed;
+    --white: #ffffff;
+
+    --text-muted: #aaa69d;
+
+    --border: rgba(255, 255, 255, 0.09);
+}
+
+
+/* =========================================
+   GLOBAL
+========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+html {
+    background: var(--charcoal);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--charcoal);
+    color: var(--cream);
+}
+
+a {
+    color: inherit;
+}
+
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.event-navbar {
+    min-height: 70px;
+    background: var(--charcoal);
+    border-bottom: 1px solid var(--border);
+}
+
+.brand-mark {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--gold);
+    color: var(--charcoal);
+
+    border-radius: 7px;
+    margin-right: 10px;
+
+    font-size: 23px;
+}
+
+.brand-mark svg {
+    width: 25px;
+    height: 25px;
+}
+
+.brand-name {
+    color: var(--cream);
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.event-navbar .nav-link {
+    color: var(--text-muted);
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.event-navbar .nav-link:hover {
+    color: var(--gold-light);
+}
+
+.register-btn {
+    background: var(--gold);
+    color: var(--charcoal) !important;
+
+    border: none;
+    border-radius: 7px;
+
+    padding: 9px 18px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition: 0.2s ease;
+}
+
+.register-btn:hover {
+    background: var(--gold-light);
+    color: var(--charcoal) !important;
+
+    transform: translateY(-1px);
+}
+
+.event-navbar .navbar-toggler {
+    border: 1px solid rgba(201, 162, 39, 0.5);
+}
+
+.event-navbar .navbar-toggler:focus {
+    box-shadow: 0 0 0 0.15rem rgba(201, 162, 39, 0.2);
+}
+
+.event-navbar .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+

@@ -1,0 +1,471 @@
+/* =========================================
+   EVENT DETAILS PAGE
+========================================= */
+
+.event-details-page {
+    min-height: calc(100vh - 70px);
+
+    background: var(--charcoal);
+
+    color: var(--cream);
+
+    padding: 35px 0 100px;
+}
+
+
+/* =========================================
+   BACK LINK
+========================================= */
+
+.event-back-container {
+    margin-bottom: 25px;
+}
+
+.back-events-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--text-muted);
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition:
+        color 0.2s ease,
+        gap 0.2s ease;
+}
+
+.back-events-link:hover {
+    color: var(--gold-light);
+
+    gap: 11px;
+}
+
+.back-events-link svg {
+    width: 17px;
+    height: 17px;
+}
+
+
+/* =========================================
+   EVENT DETAILS HERO
+========================================= */
+
+.event-details-hero {
+    margin-bottom: 45px;
+}
+
+.event-details-hero .container {
+    max-width: 1140px;
+}
+
+.event-details-visual {
+    min-height: 350px;
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 55px 30px;
+
+    background:
+        radial-gradient(
+            circle at 70% 25%,
+            rgba(201, 162, 39, 0.13),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at center,
+            #30343b,
+            #181b21 65%,
+            #101216
+        );
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.25);
+}
+
+.event-details-visual::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 20px;
+
+    border: 1px solid rgba(201, 162, 39, 0.12);
+
+    border-radius: 12px;
+
+    pointer-events: none;
+}
+
+.event-details-category {
+    position: relative;
+
+    z-index: 1;
+
+    color: var(--gold-light);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 15px;
+}
+
+.event-details-visual h1 {
+    position: relative;
+
+    z-index: 1;
+
+    max-width: 850px;
+
+    color: var(--cream);
+
+    font-size: clamp(40px, 6vw, 70px);
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    letter-spacing: -3px;
+
+    margin: 0 0 18px;
+}
+
+.event-details-visual p {
+    position: relative;
+
+    z-index: 1;
+
+    max-width: 650px;
+
+    color: var(--text-muted);
+
+    font-size: 16px;
+
+    line-height: 1.7;
+
+    margin: 0;
+}
+
+
+/* =========================================
+   EVENT INFORMATION
+========================================= */
+
+.event-information {
+    padding-bottom: 20px;
+}
+
+.event-info-card {
+    height: 100%;
+
+    padding: 35px;
+
+    background: var(--charcoal-light);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.event-info-card h2 {
+    color: var(--cream);
+
+    font-size: clamp(28px, 4vw, 40px);
+
+    font-weight: 700;
+
+    letter-spacing: -1.5px;
+
+    margin: 0 0 35px;
+}
+
+
+/* =========================================
+   EVENT INFORMATION GRID
+========================================= */
+
+.event-info-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.event-info-item {
+    min-height: 145px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+    padding: 22px;
+
+    background: var(--charcoal-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.event-info-item:hover {
+    transform: translateY(-3px);
+
+    border-color:
+        rgba(201, 162, 39, 0.3);
+}
+
+.event-info-icon {
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(201, 162, 39, 0.1);
+
+    border: 1px solid rgba(201, 162, 39, 0.2);
+
+    border-radius: 9px;
+
+    color: var(--gold-light);
+}
+
+.event-info-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.event-info-item span {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 7px;
+}
+
+.event-info-item strong {
+    display: block;
+
+    color: var(--cream);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   BOOKING PRICE CARD
+========================================= */
+
+.booking-price-card {
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    padding: 32px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--charcoal-light),
+            var(--charcoal-soft)
+        );
+
+    border: 1px solid rgba(201, 162, 39, 0.22);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.booking-label {
+    color: var(--gold-light);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 2.5px;
+
+    margin-bottom: 10px;
+}
+
+.booking-price {
+    color: var(--cream);
+
+    font-size: 42px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    margin-bottom: 18px;
+}
+
+.booking-price-card p {
+    color: var(--text-muted);
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    margin: 0 0 28px;
+}
+
+
+/* =========================================
+   CHOOSE SEATS BUTTON
+========================================= */
+
+.choose-seat-btn {
+    width: 100%;
+
+    min-height: 50px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    margin-top: auto;
+
+    padding: 14px 20px;
+
+    background: var(--gold);
+
+    color: var(--charcoal) !important;
+
+    border: 1px solid var(--gold);
+
+    border-radius: 8px;
+
+    text-decoration: none !important;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        gap 0.2s ease;
+}
+
+.choose-seat-btn:hover {
+    background: var(--gold-light);
+
+    color: var(--charcoal) !important;
+
+    border-color: var(--gold-light);
+
+    transform: translateY(-2px);
+
+    gap: 12px;
+
+    box-shadow:
+        0 10px 25px rgba(201, 162, 39, 0.15);
+}
+
+.choose-seat-btn svg {
+    width: 17px;
+    height: 17px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   LOADING / ERROR
+========================================= */
+
+.events-loading,
+.events-error {
+    padding: 40px;
+
+    text-align: center;
+
+    color: var(--text-muted);
+}
+
+.events-error {
+    color: #e6a3a3;
+}
+
+.no-events {
+    padding: 70px 20px;
+
+    text-align: center;
+
+    background: var(--charcoal-light);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+}
+
+.no-events h3 {
+    color: var(--cream);
+
+    margin-bottom: 10px;
+}
+
+.no-events p {
+    color: var(--text-muted);
+
+    margin: 0;
+}
+
+

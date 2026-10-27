@@ -1,0 +1,240 @@
+/* ================================
+   BOOKING CONFIRMATION
+================================ */
+
+.confirmation-page {
+    min-height: calc(100vh - 76px);
+    background: var(--charcoal);
+    color: var(--cream);
+}
+
+.confirmation-header {
+    margin: 40px auto 35px;
+    text-align: center;
+}
+
+.confirmation-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(201, 162, 39, 0.12);
+    border: 1px solid var(--gold);
+    color: var(--gold-light);
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.confirmation-header h1 {
+    margin: 12px 0;
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.confirmation-header h1 span {
+    color: var(--gold);
+}
+
+.confirmation-header p:not(.section-label) {
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+.confirmation-card {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 30px;
+    background: var(--charcoal-light);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.confirmation-booking-id {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.confirmation-booking-id span,
+.confirmation-total span {
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.confirmation-booking-id strong {
+    color: var(--gold-light);
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.confirmation-divider {
+    height: 1px;
+    margin: 25px 0;
+    background: var(--border);
+}
+
+.confirmation-event h2 {
+    margin: 0 0 25px;
+    color: var(--white);
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.confirmation-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.confirmation-details div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.confirmation-details span {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.confirmation-details strong {
+    color: var(--cream);
+    font-size: 14px;
+}
+
+.confirmation-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.confirmation-seats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.confirmation-total {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 7px;
+}
+
+.confirmation-total strong {
+    color: var(--gold-light);
+    font-size: 27px;
+}
+
+.confirmation-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.confirmation-actions .learn-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 12px 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.confirmation-actions .learn-btn:hover {
+    background: var(--charcoal-soft);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.confirmation-empty {
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 40px;
+    background: var(--charcoal-light);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.confirmation-empty h2 {
+    margin-bottom: 12px;
+    color: var(--white);
+}
+
+.confirmation-empty p {
+    margin-bottom: 25px;
+    color: var(--text-muted);
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 767px) {
+
+    .checkout-timer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .confirmation-header h1 {
+        font-size: 34px;
+    }
+
+    .confirmation-card {
+        padding: 22px;
+    }
+
+    .confirmation-booking-id {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .confirmation-details {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .confirmation-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .confirmation-total {
+        align-items: flex-start;
+    }
+
+    .confirmation-actions {
+        flex-direction: column;
+    }
+
+    .confirmation-actions .event-view-btn,
+    .confirmation-actions .learn-btn {
+        width: 100%;
+    }
+
+}

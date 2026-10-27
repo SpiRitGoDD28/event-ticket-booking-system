@@ -1,0 +1,279 @@
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 991px) {
+
+    .hero-section {
+        padding-top: 65px;
+    }
+
+    .hero-visual {
+        margin-top: 55px;
+    }
+
+    .theatre {
+        width: 78%;
+    }
+
+    .card-one {
+        left: 2%;
+    }
+
+    .card-two {
+        right: 2%;
+    }
+
+    .event-card-overlay h2 {
+        font-size: 27px;
+    }
+
+    .event-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .event-info-item {
+        min-height: auto;
+    }
+
+    .booking-price-card {
+        height: auto;
+    }
+
+    .seat-summary {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .seat-continue-btn {
+        width: 100%;
+    }
+}
+
+
+@media (max-width: 767px) {
+
+    .hero-section {
+        padding: 50px 0 20px;
+    }
+
+    .hero-title {
+        font-size: 48px;
+
+        letter-spacing: -2px;
+    }
+
+    .hero-text {
+        font-size: 15px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+    .explore-btn,
+    .learn-btn {
+        width: min(280px, 100%);
+    }
+
+    .hero-visual {
+        min-height: 390px;
+
+        margin-top: 45px;
+    }
+
+    .theatre {
+        width: 82%;
+
+        height: 300px;
+    }
+
+    .screen-frame {
+        top: 45px;
+
+        height: 175px;
+    }
+
+    .screen-title {
+        font-size: 20px;
+    }
+
+    .floating-card {
+        min-width: 110px;
+
+        padding: 11px 13px;
+
+        font-size: 11px;
+    }
+
+    .card-one {
+        top: 25px;
+
+        left: 0;
+    }
+
+    .card-two {
+        right: 0;
+
+        bottom: 35px;
+    }
+
+    .features-section {
+        padding: 55px 0 75px;
+    }
+
+    .feature-card {
+        min-height: 190px;
+    }
+
+    .events-page {
+        padding-top: 50px;
+    }
+
+    .events-title {
+        font-size: 48px;
+
+        letter-spacing: -2px;
+    }
+
+    .event-card-visual {
+        min-height: 190px;
+    }
+
+    .event-card-body {
+        padding: 24px;
+    }
+
+    .event-details-page {
+        padding-top: 25px;
+    }
+
+    .event-details-visual {
+        min-height: 300px;
+
+        padding: 45px 22px;
+    }
+
+    .event-details-visual h1 {
+        font-size: 42px;
+
+        letter-spacing: -2px;
+    }
+
+    .event-info-card {
+        padding: 25px;
+    }
+
+    .booking-price-card {
+        padding: 25px;
+    }
+
+    .seat-summary {
+        grid-template-columns: 1fr;
+
+        gap: 22px;
+
+        padding: 25px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .hero-title {
+        font-size: 42px;
+    }
+
+    .hero-visual {
+        min-height: 330px;
+    }
+
+    .theatre {
+        width: 86%;
+
+        height: 250px;
+    }
+
+    .screen-frame {
+        top: 38px;
+
+        height: 140px;
+    }
+
+    .screen-title {
+        font-size: 16px;
+    }
+
+    .screen-small {
+        font-size: 8px;
+
+        letter-spacing: 2px;
+    }
+
+    .curtain {
+        width: 20%;
+    }
+
+    .floating-card {
+        min-width: auto;
+
+        padding: 9px 11px;
+    }
+
+    .card-one {
+        left: -3px;
+    }
+
+    .card-two {
+        right: -3px;
+    }
+
+    .event-card-overlay h2 {
+        font-size: 24px;
+    }
+
+    .event-view-btn {
+        width: 100%;
+    }
+
+    .event-details-visual {
+        min-height: 270px;
+
+        padding: 40px 18px;
+    }
+
+    .event-details-visual h1 {
+        font-size: 35px;
+    }
+
+    .event-details-visual p {
+        font-size: 14px;
+    }
+
+    .event-info-card h2 {
+        font-size: 28px;
+    }
+
+    .event-info-item {
+        padding: 18px;
+    }
+
+    .seat-layout {
+        gap: 8px;
+
+        padding: 10px;
+    }
+
+    .seat {
+        height: 43px;
+
+        font-size: 12px;
+    }
+
+    .seat-legend {
+        gap: 15px;
+
+        flex-wrap: wrap;
+    }
+}

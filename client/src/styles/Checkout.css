@@ -1,0 +1,236 @@
+/* ============================= */
+/* CHECKOUT PAGE */
+/* ============================= */
+
+.checkout-page {
+    min-height: calc(100vh - 76px);
+    background: var(--charcoal);
+    color: var(--cream);
+}
+
+.checkout-header {
+    margin: 40px 0;
+}
+
+.checkout-header h1 {
+    margin: 12px 0;
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.checkout-header h1 span {
+    color: var(--gold);
+}
+
+.checkout-header p:not(.section-label) {
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+.checkout-card,
+.checkout-summary {
+    background: var(--charcoal-light);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+}
+
+.checkout-card-label {
+    margin-bottom: 18px;
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.checkout-card h2 {
+    margin-bottom: 25px;
+    color: var(--white);
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.checkout-event-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.checkout-event-details div {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.checkout-event-details span {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.checkout-event-details strong {
+    color: var(--cream);
+    font-size: 14px;
+}
+
+.checkout-seats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.checkout-seat {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 52px;
+    height: 42px;
+    padding: 0 14px;
+    background: rgba(201, 162, 39, 0.12);
+    border: 1px solid var(--gold);
+    border-radius: 7px;
+    color: var(--gold-light);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.checkout-summary {
+    position: sticky;
+    top: 100px;
+}
+
+.checkout-summary-row,
+.checkout-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.checkout-summary-row {
+    margin-bottom: 18px;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.checkout-summary-row strong {
+    color: var(--cream);
+}
+
+.checkout-divider {
+    height: 1px;
+    margin: 22px 0;
+    background: var(--border);
+}
+
+.checkout-total-row {
+    margin-bottom: 25px;
+    color: var(--cream);
+    font-size: 17px;
+}
+
+.checkout-total-row strong {
+    color: var(--gold-light);
+    font-size: 26px;
+}
+
+.checkout-confirm-btn {
+    width: 100%;
+    min-height: 52px;
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    background: var(--gold);
+    color: var(--charcoal);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.checkout-confirm-btn:hover:not(:disabled) {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+    transform: translateY(-2px);
+}
+
+.checkout-confirm-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.checkout-note {
+    margin: 16px 0 0;
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.checkout-empty {
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 40px;
+    background: var(--charcoal-light);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.checkout-empty h2 {
+    color: var(--white);
+    margin-bottom: 12px;
+}
+
+.checkout-empty p {
+    color: var(--text-muted);
+    margin-bottom: 25px;
+}
+
+@media (max-width: 767px) {
+
+    .checkout-header h1 {
+        font-size: 32px;
+    }
+
+    .checkout-event-details {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .checkout-card,
+    .checkout-summary {
+        padding: 22px;
+    }
+
+    .checkout-summary {
+        position: static;
+    }
+
+}
+/* ================================
+   CHECKOUT TIMER
+================================ */
+
+.checkout-timer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+    padding: 16px 20px;
+    background: rgba(201, 162, 39, 0.1);
+    border: 1px solid rgba(201, 162, 39, 0.35);
+    border-radius: 10px;
+    color: var(--cream);
+    font-size: 14px;
+}
+
+.checkout-timer strong {
+    color: var(--gold-light);
+    font-size: 17px;
+}
+
+
