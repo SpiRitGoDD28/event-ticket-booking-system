@@ -80,7 +80,6 @@ router.post(
 
 router.get(
     "/",
-    protect,
     getEvents
 );
 

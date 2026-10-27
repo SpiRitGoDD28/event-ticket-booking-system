@@ -8,7 +8,8 @@ const {
     forgotPassword,
     verifyOtp,
     resetPassword,
-    changePassword
+    changePassword,
+    getCurrentUser
 } = require("../controllers/authController");
 
 const rateLimit = require("express-rate-limit");
@@ -171,6 +172,14 @@ router.post(
     validate,
     authLimiter,
     loginUser
+);
+
+// CURRENT USER
+
+router.get(
+    "/me",
+    protect,
+    getCurrentUser
 );
 
 

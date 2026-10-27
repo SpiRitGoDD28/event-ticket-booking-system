@@ -9,13 +9,32 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const sendEmail = async (to, subject, text) => {
+
+const sendEmail = async (
+    to,
+    subject,
+    text,
+    html,
+    attachments = []
+) => {
+
     await transporter.sendMail({
+
         from: process.env.EMAIL_USER,
+
         to: to,
+
         subject: subject,
-        text: text
+
+        text: text,
+
+        html: html,
+
+        attachments: attachments
+
     });
+
 };
+
 
 module.exports = sendEmail;

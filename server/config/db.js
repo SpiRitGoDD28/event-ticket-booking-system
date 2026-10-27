@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
-    await mongoose.connect("mongodb+srv://28sujalshaw_db_user:Sujal28102004@cluster0.697qouk.mongodb.net/ticket_booking?appName=Cluster0");
+    await mongoose.connect("mongodb+srv://28sujalshaw_db_user:Sujal28102004@cluster0.697qouk.mongodb.net/ticket_booking?appName=Cluster0", {
+        autoSelectFamily: false
+    });
     console.log("MongoDB connected");
 };
 

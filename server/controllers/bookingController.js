@@ -1,291 +1,800 @@
 const mongoose = require("mongoose");
+
 const Booking = require("../models/Booking");
 const Seat = require("../models/Seat");
 const Event = require("../models/Event");
+
 const generateTicket = require("../utils/generateTicket");
+const sendTicketEmail = require("../utils/sendTicketEmail");
+const sendCancellationEmail =
+    require("../utils/sendCancellationEmail");
+
 const { getIO } = require("../config/socket");
 
 
+// =====================================================
+// CREATE BOOKING
+// =====================================================
+
 const createBooking = async (req, res) => {
-    const session = await mongoose.startSession();
+
+    const session =
+        await mongoose.startSession();
 
     try {
-        const { eventId, seatIds } = req.body;
+
+        const { eventId, seatIds } =
+            req.body;
 
         session.startTransaction();
 
-        // Find the seats that the user is currently holding
-        const seats = await Seat.find({
-            _id: { $in: seatIds },
-            event: eventId,
-            status: "HELD",
-            heldBy: req.user._id,
-            holdExpiresAt: { $gt: new Date() }
-        }).session(session);
+
+        // Find the seats currently held by the user
+
+        const seats =
+            await Seat.find({
+
+                _id: {
+                    $in: seatIds
+                },
+
+                event: eventId,
+
+                status: "HELD",
+
+                heldBy: req.user._id,
+
+                holdExpiresAt: {
+                    $gt: new Date()
+                }
+
+            }).session(session);
+
 
         // Make sure all requested seats are valid
-        if (seats.length !== seatIds.length) {
+
+        if (
+            seats.length !==
+            seatIds.length
+        ) {
+
             await session.abortTransaction();
 
             return res.status(400).json({
-                message: "One or more seats are invalid, expired, or not held by you"
+
+                message:
+                    "One or more seats are invalid, expired, or not held by you"
+
             });
+
         }
 
-        // Find the event
-        const event = await Event.findById(eventId).session(session);
+
+        // Find event
+
+        const event =
+            await Event.findById(eventId)
+                .session(session);
+
 
         if (!event) {
+
             await session.abortTransaction();
 
             return res.status(404).json({
-                message: "Event not found"
+
+                message:
+                    "Event not found"
+
             });
+
         }
 
-        // Calculate total price
-        const totalAmount = seats.length * event.price;
+
+        // Calculate total amount
+
+        const totalAmount =
+            seats.length * event.price;
+
 
         // Generate booking ID
+
         const bookingId =
-            "BK-" + Date.now().toString(36).toUpperCase();
+            "BK-" +
+            Date.now()
+                .toString(36)
+                .toUpperCase();
+
 
         // Create booking
-        const booking = await Booking.create(
-            [
+
+        const booking =
+            await Booking.create(
+
+                [
+                    {
+
+                        bookingId,
+
+                        user:
+                            req.user._id,
+
+                        event:
+                            eventId,
+
+                        seats:
+                            seatIds,
+
+                        totalAmount,
+
+                        status:
+                            "CONFIRMED"
+
+                    }
+                ],
+
                 {
-                    bookingId,
-                    user: req.user._id,
-                    event: eventId,
-                    seats: seatIds,
-                    totalAmount,
-                    status: "CONFIRMED"
+                    session
                 }
-            ],
-            { session }
-        );
+
+            );
+
 
         // Change seats from HELD to BOOKED
+
         await Seat.updateMany(
+
             {
-                _id: { $in: seatIds },
-                status: "HELD",
-                heldBy: req.user._id
+
+                _id: {
+                    $in: seatIds
+                },
+
+                status:
+                    "HELD",
+
+                heldBy:
+                    req.user._id
+
             },
+
             {
+
                 $set: {
-                    status: "BOOKED",
-                    heldBy: null,
-                    holdExpiresAt: null
+
+                    status:
+                        "BOOKED",
+
+                    heldBy:
+                        null,
+
+                    holdExpiresAt:
+                        null
+
                 }
+
             },
-            { session }
+
+            {
+                session
+            }
+
         );
+
+
+        // Commit booking transaction
 
         await session.commitTransaction();
 
-        // Send real-time seat updates
-        const io = getIO();
+
+        // =====================================================
+        // REAL-TIME SEAT UPDATE
+        // =====================================================
+
+        const io =
+            getIO();
+
 
         if (io) {
-            for (let seat of seats) {
-                io.to(`event:${eventId}`).emit("seatUpdate", {
-                    seatId: seat._id,
-                    seatNumber: seat.seatNumber,
-                    status: "BOOKED"
-                });
+
+            for (
+                let seat
+                of seats
+            ) {
+
+                io.to(
+                    `event:${eventId}`
+                ).emit(
+                    "seatUpdate",
+                    {
+
+                        seatId:
+                            seat._id,
+
+                        seatNumber:
+                            seat.seatNumber,
+
+                        status:
+                            "BOOKED"
+
+                    }
+                );
+
             }
+
         }
+
+
+        // =====================================================
+        // GENERATE DIGITAL TICKET
+        // =====================================================
+
+        const confirmedBooking =
+            booking[0];
+
+
+        const ticket =
+            await generateTicket({
+
+                bookingId:
+                    confirmedBooking.bookingId,
+
+                event:
+                    event,
+
+                seats:
+                    seats,
+
+                totalAmount:
+                    confirmedBooking.totalAmount
+
+            });
+
+
+        // =====================================================
+        // SEND TICKET EMAIL
+        // =====================================================
+
+        let emailSent = true;
+
+
+        try {
+
+            await sendTicketEmail(
+
+                req.user.email,
+
+                req.user.name,
+
+                ticket
+
+            );
+
+
+            console.log(
+                "Ticket email sent successfully to:",
+                req.user.email
+            );
+
+
+        } catch (emailError) {
+
+            emailSent = false;
+
+
+            console.log(
+                "Ticket email failed:",
+                emailError.message
+            );
+
+        }
+
+
+        // =====================================================
+        // RESPONSE
+        // =====================================================
 
         res.status(201).json({
-            message: "Booking created successfully",
-            booking: booking[0]
+
+            message:
+                "Booking created successfully",
+
+            booking:
+                confirmedBooking,
+
+            emailSent:
+                emailSent
+
         });
+
 
     } catch (error) {
 
-        await session.abortTransaction();
+        if (
+            session.inTransaction()
+        ) {
 
-        console.log("Booking error:", error);
+            await session.abortTransaction();
 
-        res.status(500).json({
-            message: "Failed to create booking",
-            error: error.message
-        });
-
-    } finally {
-        session.endSession();
-    }
-};
-
-
-const getMyBookings = async (req, res) => {
-    try {
-        const bookings = await Booking.find({
-            user: req.user._id
-        })
-            .populate("event")
-            .populate("seats")
-            .sort({ createdAt: -1 });
-
-        res.status(200).json({
-            bookings: bookings
-        });
-
-    } catch (error) {
-        res.status(500).json({
-            message: "Failed to fetch bookings",
-            error: error.message
-        });
-    }
-};
-
-
-const getBookingById = async (req, res) => {
-    try {
-        const booking = await Booking.findOne({
-            _id: req.params.id,
-            user: req.user._id
-        })
-            .populate("event")
-            .populate("seats");
-
-        if (!booking) {
-            return res.status(404).json({
-                message: "Booking not found"
-            });
         }
 
-        res.status(200).json({
-            booking: booking
+
+        console.log(
+            "Booking error:",
+            error
+        );
+
+
+        res.status(500).json({
+
+            message:
+                "Failed to create booking",
+
+            error:
+                error.message
+
         });
 
-    } catch (error) {
-        res.status(500).json({
-            message: "Failed to fetch booking",
-            error: error.message
-        });
+
+    } finally {
+
+        session.endSession();
+
     }
+
 };
 
 
-const cancelBooking = async (req, res) => {
-    const session = await mongoose.startSession();
+// =====================================================
+// GET MY BOOKINGS
+// =====================================================
+
+const getMyBookings = async (req, res) => {
 
     try {
-        const { id } = req.params;
+
+        const bookings =
+            await Booking.find({
+
+                user:
+                    req.user._id
+
+            })
+                .populate("event")
+                .populate("seats")
+                .sort({
+                    createdAt: -1
+                });
+
+
+        res.status(200).json({
+
+            bookings:
+                bookings
+
+        });
+
+
+    } catch (error) {
+
+        res.status(500).json({
+
+            message:
+                "Failed to fetch bookings",
+
+            error:
+                error.message
+
+        });
+
+    }
+
+};
+
+
+// =====================================================
+// GET BOOKING BY ID
+// =====================================================
+
+const getBookingById = async (req, res) => {
+
+    try {
+
+        const booking =
+            await Booking.findOne({
+
+                _id:
+                    req.params.id,
+
+                user:
+                    req.user._id
+
+            })
+                .populate("event")
+                .populate("seats");
+
+
+        if (!booking) {
+
+            return res.status(404).json({
+
+                message:
+                    "Booking not found"
+
+            });
+
+        }
+
+
+        res.status(200).json({
+
+            booking:
+                booking
+
+        });
+
+
+    } catch (error) {
+
+        res.status(500).json({
+
+            message:
+                "Failed to fetch booking",
+
+            error:
+                error.message
+
+        });
+
+    }
+
+};
+
+
+// =====================================================
+// CANCEL BOOKING
+// =====================================================
+
+const cancelBooking = async (req, res) => {
+
+    const session =
+        await mongoose.startSession();
+
+
+    try {
+
+        const { id } =
+            req.params;
+
 
         session.startTransaction();
 
-        const booking = await Booking.findOne({
-            _id: id,
-            user: req.user._id,
-            status: "CONFIRMED"
-        }).session(session);
+
+        // Find the confirmed booking
+
+        const booking =
+            await Booking.findOne({
+
+                _id:
+                    id,
+
+                user:
+                    req.user._id,
+
+                status:
+                    "CONFIRMED"
+
+            })
+                .populate("event")
+                .populate("seats")
+                .session(session);
+
 
         if (!booking) {
+
             await session.abortTransaction();
 
             return res.status(404).json({
-                message: "Booking not found or already cancelled"
+
+                message:
+                    "Booking not found or already cancelled"
+
             });
+
         }
 
+
+        // =====================================================
+        // RELEASE BOOKED SEATS
+        // =====================================================
+
         await Seat.updateMany(
+
             {
-                _id: { $in: booking.seats },
-                status: "BOOKED"
+
+                _id: {
+
+                    $in:
+                        booking.seats.map(
+                            seat => seat._id
+                        )
+
+                },
+
+                status:
+                    "BOOKED"
+
             },
+
             {
+
                 $set: {
-                    status: "AVAILABLE",
-                    heldBy: null,
-                    holdExpiresAt: null
+
+                    status:
+                        "AVAILABLE",
+
+                    heldBy:
+                        null,
+
+                    holdExpiresAt:
+                        null
+
                 }
+
             },
-            { session }
+
+            {
+                session
+            }
+
         );
 
-        booking.status = "CANCELLED";
 
-        await booking.save({ session });
+        // =====================================================
+        // CHANGE BOOKING STATUS
+        // =====================================================
+
+        booking.status =
+            "CANCELLED";
+
+
+        await booking.save({
+
+            session
+
+        });
+
+
+        // =====================================================
+        // COMMIT TRANSACTION
+        // =====================================================
 
         await session.commitTransaction();
 
-        // Send real-time seat updates
-        const io = getIO();
+
+        // =====================================================
+        // REAL-TIME SEAT UPDATE
+        // =====================================================
+
+        const io =
+            getIO();
+
 
         if (io) {
-            for (let seatId of booking.seats) {
-                io.to(`event:${booking.event}`).emit("seatUpdate", {
-                    seatId: seatId,
-                    status: "AVAILABLE"
-                });
+
+            for (
+                let seat
+                of booking.seats
+            ) {
+
+                io.to(
+                    `event:${booking.event._id}`
+                ).emit(
+                    "seatUpdate",
+                    {
+
+                        seatId:
+                            seat._id,
+
+                        seatNumber:
+                            seat.seatNumber,
+
+                        status:
+                            "AVAILABLE"
+
+                    }
+                );
+
             }
+
         }
 
+
+        // =====================================================
+        // SEND CANCELLATION EMAIL
+        // =====================================================
+
+        let emailSent = true;
+
+
+        try {
+
+            await sendCancellationEmail(
+
+                req.user.email,
+
+                req.user.name,
+
+                booking
+
+            );
+
+
+            console.log(
+                "Cancellation email sent successfully to:",
+                req.user.email
+            );
+
+
+        } catch (emailError) {
+
+            emailSent = false;
+
+
+            console.log(
+                "Cancellation email failed:",
+                emailError.message
+            );
+
+        }
+
+
+        // =====================================================
+        // RESPONSE
+        // =====================================================
+
         res.status(200).json({
-            message: "Booking cancelled successfully",
-            booking: booking
+
+            message:
+                "Booking cancelled successfully",
+
+            booking:
+                booking,
+
+            emailSent:
+                emailSent
+
         });
+
 
     } catch (error) {
 
-        await session.abortTransaction();
+        if (
+            session.inTransaction()
+        ) {
 
-        console.log("Cancellation error:", error);
+            await session.abortTransaction();
+
+        }
+
+
+        console.log(
+            "Cancellation error:",
+            error
+        );
+
 
         res.status(500).json({
-            message: "Failed to cancel booking",
-            error: error.message
+
+            message:
+                "Failed to cancel booking",
+
+            error:
+                error.message
+
         });
+
 
     } finally {
+
         session.endSession();
+
     }
+
 };
 
 
+// =====================================================
+// GET DIGITAL TICKET
+// =====================================================
+
 const getDigitalTicket = async (req, res) => {
+
     try {
 
-        const booking = await Booking.findOne({
-            _id: req.params.id,
-            user: req.user._id,
-            status: "CONFIRMED"
-        })
-            .populate("event")
-            .populate("seats");
+        const booking =
+            await Booking.findOne({
+
+                _id:
+                    req.params.id,
+
+                user:
+                    req.user._id,
+
+                status:
+                    "CONFIRMED"
+
+            })
+                .populate("event")
+                .populate("seats");
+
 
         if (!booking) {
+
             return res.status(404).json({
-                message: "Confirmed booking not found"
+
+                message:
+                    "Confirmed booking not found"
+
             });
+
         }
 
-        const ticket = await generateTicket(booking);
+
+        const ticket =
+            await generateTicket(
+                booking
+            );
+
 
         res.status(200).json({
-            message: "Digital ticket generated successfully",
-            ticket: ticket
+
+            message:
+                "Digital ticket generated successfully",
+
+            ticket:
+                ticket
+
         });
+
 
     } catch (error) {
 
-        console.log("Ticket generation error:", error);
+        console.log(
+            "Ticket generation error:",
+            error
+        );
+
 
         res.status(500).json({
-            message: "Failed to generate digital ticket",
-            error: error.message
+
+            message:
+                "Failed to generate digital ticket",
+
+            error:
+                error.message
+
         });
+
     }
+
 };
 
 
+// =====================================================
+// EXPORTS
+// =====================================================
+
 module.exports = {
+
     createBooking,
+
     getMyBookings,
+
     getBookingById,
+
     cancelBooking,
+
     getDigitalTicket
+
 };
